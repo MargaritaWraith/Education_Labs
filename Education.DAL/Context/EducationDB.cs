@@ -12,8 +12,15 @@ namespace Education.DAL.Context
         public DbSet<Lector> Lectors { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<LabWork> LabWorks { get; set; }
-        public EducationDB(DbContextOptions options) : base(options)
+
+        public EducationDB(DbContextOptions<EducationDB> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder model)
         {
+            base.OnModelCreating(model);
+            model.Entity<LectorsCourses>().HasKey(e => new { e.LectorId, e.CourseId });
+            model.Entity<StudentsCourses>().HasKey(e => new { e.StudentId, e.CourseId });
+            model.Entity<StudentsLabWorks>().HasKey(e => new { e.StudentId, e.LabWorkId });
         }
     }
 }
