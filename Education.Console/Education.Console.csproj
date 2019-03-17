@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Education.DAL\Education.DAL.csproj" />
     <ProjectReference Include="..\Education.Entityes\Education.Entityes.csproj" />
+    <ProjectReference Include="..\Education.Service\Education.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

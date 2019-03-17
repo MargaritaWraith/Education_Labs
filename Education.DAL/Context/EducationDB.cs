@@ -12,6 +12,7 @@ namespace Education.DAL.Context
         public DbSet<Lector> Lectors { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<LabWork> LabWorks { get; set; }
+        public DbSet<StudentGroup> StudentGroups { get; set; }
 
         public EducationDB(DbContextOptions<EducationDB> options) : base(options) { }
 

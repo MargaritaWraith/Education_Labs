@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.Entityes", "Educa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.Console", "Education.Console\Education.Console.csproj", "{5E2AAF3D-D4A3-4C7E-AB16-2EE07B2E5894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Education.DAL", "Education.DAL\Education.DAL.csproj", "{E429F94D-BE58-401F-AA2E-E0C010F96AC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.DAL", "Education.DAL\Education.DAL.csproj", "{E429F94D-BE58-401F-AA2E-E0C010F96AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Education.WEB", "Education.WEB\Education.WEB.csproj", "{B7A99551-7141-4343-8EC6-94CF4AF00D45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.WEB", "Education.WEB\Education.WEB.csproj", "{B7A99551-7141-4343-8EC6-94CF4AF00D45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Education.Service", "Education.Service\Education.Service.csproj", "{382DE3B8-DD7F-44DB-B60B-02F832B8F112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B7A99551-7141-4343-8EC6-94CF4AF00D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7A99551-7141-4343-8EC6-94CF4AF00D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7A99551-7141-4343-8EC6-94CF4AF00D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
