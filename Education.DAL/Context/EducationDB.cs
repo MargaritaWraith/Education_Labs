@@ -14,7 +14,11 @@ namespace Education.DAL.Context
         public DbSet<LabWork> LabWorks { get; set; }
         public DbSet<StudentGroup> StudentGroups { get; set; }
 
-        public EducationDB(DbContextOptions<EducationDB> options) : base(options) { }
+        public EducationDB(DbContextOptions<EducationDB> options) 
+            : base(options)
+        {
+            ChangeTracker.LazyLoadingEnabled = true;
+        }
 
         protected override void OnModelCreating(ModelBuilder model)
         {

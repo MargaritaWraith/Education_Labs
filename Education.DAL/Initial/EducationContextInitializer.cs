@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Education.DAL.Context;
 using Education.Entityes.EF;
+using Microsoft.EntityFrameworkCore;
 
 namespace Education.DAL.Initial
 {
@@ -116,13 +117,13 @@ namespace Education.DAL.Initial
 
                 AddLector("Андрей", "Щербачёв", "Юрьевич", "РПУ");
                 AddLector("Олег", "Терёхин", "Васильевич", "ЭМС", "АФУ");
-                AddLector("Антон", "Васин", "Александрович","ЭМС", "РПУ");
+                AddLector("Антон", "Васин", "Александрович", "ЭМС", "РПУ");
                 AddLector("Павел", "Шмачилин", "Александрович", "АФУ", "РПУ", "Введение в специальность");
-                AddLector("Александр", "Гринёв","Юрьевич", "Электродинамика");
-                AddLector("Леонид", "Пономарёв","Иванович", "АФУ", "ЭМС");
-                AddLector("Дмитрий", "Воскресенский","Иванович", "АФУ", "Проектирование ФАР и АФАР");
-                AddLector("Елена", "Добычина", "Михайловна","РПУ");
-                AddLector("Елена", "Овчинникова", "Викторовна","АФУ", "Сверхширокополосные системы");
+                AddLector("Александр", "Гринёв", "Юрьевич", "Электродинамика");
+                AddLector("Леонид", "Пономарёв", "Иванович", "АФУ", "ЭМС");
+                AddLector("Дмитрий", "Воскресенский", "Иванович", "АФУ", "Проектирование ФАР и АФАР");
+                AddLector("Елена", "Добычина", "Михайловна", "РПУ");
+                AddLector("Елена", "Овчинникова", "Викторовна", "АФУ", "Сверхширокополосные системы");
 
                 db.SaveChanges();
             }
@@ -140,7 +141,7 @@ namespace Education.DAL.Initial
                 db.SaveChanges();
             }
 
-            /* if (!db.LaboratoryWorkExecutions.Any())
+            if (!db.Students.Any(s => s.LabWorks.Count > 0))
             {
                 var students = db.Students.ToArray();
                 var labs = db.LabWorks.ToArray();
@@ -148,17 +149,21 @@ namespace Education.DAL.Initial
                 for (int i = 0; i < students.Length * 5; i++)
                 {
                     var stud = rnd.Next(students);
+                    if (stud.LabWorks == null) stud.LabWorks = new List<StudentsLabWorks>();
                     var lbw = rnd.Next(labs);
-                    if (stud.Courses.Contains(lbw.Course))
-                        stud.LaboratoryWorkExecutions.Add(new LaboratoryWorkExecution
+                    if (stud.Courses != null && stud.Courses.Any(c => c.Course == lbw.Course) && !stud.LabWorks.Any(lw => lw.LabWorks == lbw))
+                    {
+                        stud.LabWorks.Add(new StudentsLabWorks
                         {
-                            Order = rnd.Next(1, 6),
-                            LaboratoryWork = lbw
+                            Rating = rnd.Next(1, 6),
+                            LabWorks = lbw,
+                            Student = stud
                         });
+                    }
 
                 }
                 db.SaveChanges();
-            }*/
+            }
         }
 
     }
