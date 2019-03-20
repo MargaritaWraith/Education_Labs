@@ -35,7 +35,7 @@ namespace Education.ConsoleTest
                     connection.Open();
                     while (true)
                     {
-                        Console.Write("Enter command >");
+                        Console.Write("Enter command >>");
                         var cmd = Console.ReadLine();
 
                         if (cmd?.Equals("exit", StringComparison.OrdinalIgnoreCase) == true) break;
@@ -57,58 +57,64 @@ namespace Education.ConsoleTest
 
 
 
-                        SqlCommand command = new SqlCommand(cmd_body, connection);
-                        switch (cmd_prefix)
+                        try
                         {
-                            case "scalar":
-                                {
-                                    var result = command.ExecuteScalar();
-                                    Console.WriteLine(result);
-                                }
-                                break;
-
-                            case "nonquery":
-                                {
-                                    var result = command.ExecuteNonQuery();
-                                    Console.WriteLine(result);
-                                }
-                                break;
-
-
-                            case "reader":
-                            case "vector":
-                            default:
-                                {
-                                    var reader = command.ExecuteReader();
-                                    var schema = reader.GetColumnSchema();
-                                    foreach (var db_column in schema)
+                            SqlCommand command = new SqlCommand(cmd_body, connection);
+                            switch (cmd_prefix)
+                            {
+                                case "scalar":
                                     {
-                                        Console.Write(db_column.ColumnName + "   ");
+                                        var result = command.ExecuteScalar();
+                                        Console.WriteLine(result);
                                     }
+                                    break;
 
-                                    Console.WriteLine();
-
-                                    while (reader.Read())
+                                case "nonquery":
                                     {
-                                        for (int i = 0; i < schema.Count; i++)
+                                        var result = command.ExecuteNonQuery();
+                                        Console.WriteLine(result);
+                                    }
+                                    break;
+
+
+                                case "reader":
+                                case "vector":
+                                default:
+                                    {
+                                        using (var reader = command.ExecuteReader())
                                         {
-                                            Console.Write(reader[i]);
-                                            Console.Write("| ");
+                                            var schema = reader.GetColumnSchema();
+                                            foreach (var db_column in schema)
+                                            {
+                                                Console.Write(db_column.ColumnName + "   ");
+                                            }
+
+                                            Console.WriteLine();
+
+                                            while (reader.Read())
+                                            {
+                                                for (int i = 0; i < schema.Count; i++)
+                                                {
+                                                    Console.Write(reader[i]);
+                                                    Console.Write("| ");
+                                                }
+
+                                                Console.WriteLine();
+                                            }
+                                            Console.WriteLine();
                                         }
-                                        Console.WriteLine();
                                     }
-
-
-                                }
-                                break;
+                                    break;
+                            }
                         }
-
-
-
-
+                        catch (Exception error)
+                        {
+                            Console.WriteLine("При выполнении команды {0} произошла ошибка:", cmd_body);
+                            Console.WriteLine(error.GetType().Name);
+                            Console.WriteLine(error.Message);
+                            Console.WriteLine();
+                        }
                     }
-
-                    ;
                 }
             }
 
