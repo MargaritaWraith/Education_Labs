@@ -1,0 +1,29 @@
+﻿
+@model Education.Entityes.EF.StudentGroup
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Студенты @Model.Name</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Отчество</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Surname</td>
+                <td>@student.Name</td>
+                <td>@student.Patronymic</td>
+            </tr>
+        }
+    </tbody>
+</table>
