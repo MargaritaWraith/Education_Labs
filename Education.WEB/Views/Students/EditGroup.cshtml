@@ -1,0 +1,17 @@
+﻿@model Education.Entityes.EF.StudentGroup
+@{
+    ViewData["Title"] = "EditGroup";
+}
+
+<h1>Редактирование группы</h1>
+
+<form method="post">
+    @Html.HiddenFor(g => g.Id) @* скрытое поле ввода формы, хранящее идентификатор группы (необходимое для передачи информации контроллеру) *@
+    <p>
+        Название группы
+    </p>
+    @Html.EditorFor(g => g.Name)
+    <input type="submit" value="Сохранить"/>
+</form>
+<hr/>
+<a asp-controller="Students" asp-action="Index">К списку групп</a>
