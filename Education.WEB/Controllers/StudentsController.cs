@@ -5,7 +5,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.Entityes.EF;
+using Education.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Education.WEB.Controllers
@@ -62,7 +64,7 @@ namespace Education.WEB.Controllers
             else
             {
                 var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == group.Id);
-                if (db_group==null)
+                if (db_group == null)
                     return NotFound();
                 db_group.Name = group.Name;
             }
@@ -87,7 +89,7 @@ namespace Education.WEB.Controllers
             if (StudId == null)
             {
                 stud = new Student();
-                StudentGroup group = _DB.StudentGroups.FirstOrDefault(g=>g.Id == GroupId);
+                var group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
 
                 if (group == null)
                     return NotFound();
@@ -95,29 +97,38 @@ namespace Education.WEB.Controllers
             }
             else
             {
-                stud = _DB.Students.FirstOrDefault(g=>g.Id == StudId);
+                stud = _DB.Students.Include(s => s.Group).FirstOrDefault(g => g.Id == StudId);
                 if (stud == null)
                     return NotFound();
             }
 
-            return View(stud);
+            return View(new EditStudentViewModel { Student = stud, Groups = new SelectList(_DB.StudentGroups.ToArray()) });
         }
 
         [HttpPost]
-        public IActionResult EditStudent(Student Student)
+        public IActionResult EditStudent(EditStudentViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(Student);
+                return View(model);
 
-            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s=>s.Id == Student.Id);
+            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == model.Student.Id);
             if (db_student == null)
                 return NotFound();
+            var db_group = _DB.StudentGroups.Include(g => g.Students).FirstOrDefault(g => g.Id == model.Group.Id);
+            if (db_group == null)
+                return NotFound();
 
-            db_student.Name = Student.Name;
-            db_student.Surname = Student.Surname;
-            db_student.Patronymic = Student.Patronymic;
+            db_student.Name = model.Student.Name;
+            db_student.Surname = model.Student.Surname;
+            db_student.Patronymic = model.Student.Patronymic;
+            if (db_student.Group.Id != model.Group.Id)
+            {
+                db_student.Group.Students.Remove(db_student);
+                db_group.Students.Add(db_student);
+            }
+
             _DB.SaveChanges();
-            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+            return RedirectToAction("GroupStudents", new { db_student.Group.Id });
         }
 
         public IActionResult RemoveStudent(int Id)
@@ -127,7 +138,7 @@ namespace Education.WEB.Controllers
                 return NotFound();
             _DB.Students.Remove(db_student);
             _DB.SaveChanges();
-            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+            return RedirectToAction("GroupStudents", new { db_student.Group.Id });
 
         }
     }
