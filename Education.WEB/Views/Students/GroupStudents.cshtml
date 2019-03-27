@@ -4,13 +4,15 @@
 }
 
 <h1>Группа @Model.Name</h1>
-
+<a class="btn btn-primary">Добавить студента</a>
 <table class="table">
     <thead>
     <tr>
         <th>№</th>
         <th>Фамилия</th>
         <th>Имя</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -21,8 +23,10 @@
     {
         <tr>
             <td>@(n++)</td>
-            <td><a>@student.Surname</a></td>
-            <td><a>@student.Name</a></td>
+            <td>@student.Surname</td>
+            <td>@student.Name</td>
+            <td><a asp-controller="Students" asp-action="EditStudent" asp-route-StudId="@student.Id" asp-route-GroupId="@student.Group.Id">Редактировать</a></td>
+            <td><a asp-controller="Students" asp-action="RemoveStudent" asp-route-Id="@student.Id" class="text-danger">Удалить</a></td>
         </tr>
     }
     </tbody>

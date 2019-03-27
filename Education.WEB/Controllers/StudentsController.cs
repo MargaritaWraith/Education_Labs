@@ -70,6 +70,65 @@ namespace Education.WEB.Controllers
             _DB.SaveChanges();
             return RedirectToAction("Index");
         }
-    }
 
+        public IActionResult RemoveGroup(int Id)
+        {
+            var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == Id);
+            if (db_group == null)
+                return NotFound();
+            _DB.StudentGroups.Remove(db_group);
+            _DB.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult EditStudent(int? StudId, int GroupId)
+        {
+            Student stud;
+            if (StudId == null)
+            {
+                stud = new Student();
+                StudentGroup group = _DB.StudentGroups.FirstOrDefault(g=>g.Id == GroupId);
+
+                if (group == null)
+                    return NotFound();
+                stud.Group = group;
+            }
+            else
+            {
+                stud = _DB.Students.FirstOrDefault(g=>g.Id == StudId);
+                if (stud == null)
+                    return NotFound();
+            }
+
+            return View(stud);
+        }
+
+        [HttpPost]
+        public IActionResult EditStudent(Student Student)
+        {
+            if (!ModelState.IsValid)
+                return View(Student);
+
+            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s=>s.Id == Student.Id);
+            if (db_student == null)
+                return NotFound();
+
+            db_student.Name = Student.Name;
+            db_student.Surname = Student.Surname;
+            db_student.Patronymic = Student.Patronymic;
+            _DB.SaveChanges();
+            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+        }
+
+        public IActionResult RemoveStudent(int Id)
+        {
+            Student db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Id);
+            if (db_student == null)
+                return NotFound();
+            _DB.Students.Remove(db_student);
+            _DB.SaveChanges();
+            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Education.Entityes.EF.BaseEntityes.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using Education.Entityes.EF.BaseEntityes.Interfaces;
 
 namespace Education.Entityes.EF.BaseEntityes
 {
@@ -7,6 +8,7 @@ namespace Education.Entityes.EF.BaseEntityes
     /// </summary>
     public abstract class NamedEntity : BaseEntity, INamedEntity
     {
+        [Display(Name = "Имя"), Required]
         public string Name { get; set; }
     }
 }

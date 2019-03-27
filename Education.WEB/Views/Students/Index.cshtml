@@ -14,6 +14,7 @@
         <th>№</th>
         <th>Номер группы</th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +27,7 @@
             <td>@(n++)</td>
             <td><a asp-controller="Students" asp-action="GroupStudents" asp-route-Id="@group.Id">@group.Name</a></td>
             <td><a asp-controller="Students" asp-action="EditGroup" asp-route-Id="@group.Id">Редактировать</a></td>
+            <td><a asp-controller="Students" asp-action="RemoveGroup" asp-route-Id="@group.Id" class="text-danger">Удалить</a></td>
         </tr>
     }
     </tbody>
