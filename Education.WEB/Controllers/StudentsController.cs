@@ -19,9 +19,20 @@ namespace Education.WEB.Controllers
 
         public IActionResult Index()
         {
-            var group = _DB.StudentGroups.Include(g => g.Students).First();
+            var groups = _DB.StudentGroups.ToArray();
+
+            return View(groups);
+        }
+
+        public IActionResult GroupStudents(int Id)
+        {
+            var group = _DB.StudentGroups.Include(g => g.Students).FirstOrDefault(g=>g.Id == Id);
+            if (group ==null)
+                return NotFound();
 
             return View(group);
         }
+
     }
+
 }

@@ -1,29 +1,28 @@
 ﻿
-@model Education.Entityes.EF.StudentGroup
+@model IEnumerable<Education.Entityes.EF.StudentGroup>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Студенты @Model.Name</h1>
+<h1>Группы</h1>
 
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th>Отчество</th>
+        <th>№</th>
+        <th>Номер группы</th>
     </tr>
     </thead>
     <tbody>
-        @foreach (var student in Model.Students)
-        {
-            <tr>
-                <td>@student.Id</td>
-                <td>@student.Surname</td>
-                <td>@student.Name</td>
-                <td>@student.Patronymic</td>
-            </tr>
-        }
+    @{
+        int n = 1;
+    }
+    @foreach (var group in Model)
+    {
+        <tr>
+            <td>@(n++)</td>
+            <td><a asp-controller="Students" asp-action="GroupStudents" asp-route-Id="@group.Id">@group.Name</a></td>
+        </tr>
+    }
     </tbody>
 </table>

@@ -1,0 +1,29 @@
+﻿@model Education.Entityes.EF.StudentGroup
+@{
+    ViewData["Title"] = "GroupStudents";
+}
+
+<h1>Группа @Model.Name</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Фамилия</th>
+        <th>Имя</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        int n = 1;
+    }
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>@(n++)</td>
+            <td><a>@student.Surname</a></td>
+            <td><a>@student.Name</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
