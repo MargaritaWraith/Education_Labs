@@ -1,4 +1,5 @@
-﻿@model Education.Entityes.EF.Student
+﻿@using Education.Entityes.EF
+@model Education.Entityes.EF.Student
 
 @{
     ViewData["Title"] = "EditStudent";
@@ -27,6 +28,23 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            
+            <div class="form-group">
+                <label asp-for="Group" class="control-label"></label>
+                <select name="GroupId" id="GroupId">
+                    @foreach (StudentGroup group in ViewBag.Groups)
+                    {
+                        if (group.Id == Model.Group.Id)
+                        {
+                            <option value="@group.Id" selected="selected">@group.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@group.Id">@group.Name</option>
+                        }
+                    }
+                </select>
+            </div>
 
             <input asp-for="Id" type="hidden" />
 
@@ -38,6 +56,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад к списку</a>
+    <a asp-action="Index">Назад к списку групп</a>
 </div>
 

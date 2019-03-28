@@ -62,7 +62,7 @@ namespace Education.WEB.Controllers
             else
             {
                 var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == group.Id);
-                if (db_group==null)
+                if (db_group == null)
                     return NotFound();
                 db_group.Name = group.Name;
             }
@@ -87,7 +87,7 @@ namespace Education.WEB.Controllers
             if (StudId == null)
             {
                 stud = new Student();
-                StudentGroup group = _DB.StudentGroups.FirstOrDefault(g=>g.Id == GroupId);
+                var group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
 
                 if (group == null)
                     return NotFound();
@@ -95,29 +95,55 @@ namespace Education.WEB.Controllers
             }
             else
             {
-                stud = _DB.Students.FirstOrDefault(g=>g.Id == StudId);
+                stud = _DB.Students.FirstOrDefault(g => g.Id == StudId);
                 if (stud == null)
                     return NotFound();
             }
+
+            ViewBag.Groups = _DB.StudentGroups.ToArray();
 
             return View(stud);
         }
 
         [HttpPost]
-        public IActionResult EditStudent(Student Student)
+        public IActionResult EditStudent(Student Student, int GroupId)
         {
             if (!ModelState.IsValid)
                 return View(Student);
 
-            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s=>s.Id == Student.Id);
-            if (db_student == null)
-                return NotFound();
+            if (Student.Id == 0)
+            {
+                var new_group = _DB.StudentGroups.Include(s => s.Students).FirstOrDefault(g => g.Id == GroupId);
+                if (new_group == null)
+                    return NotFound();
 
-            db_student.Name = Student.Name;
-            db_student.Surname = Student.Surname;
-            db_student.Patronymic = Student.Patronymic;
+                new_group.Students.Add(Student);
+                _DB.Students.Add(Student);
+            }
+
+            else
+            {
+                var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Student.Id);
+                if (db_student == null)
+                    return NotFound();
+
+                if (db_student.Group.Id != GroupId)
+                {
+                    var new_group = _DB.StudentGroups.Include(s => s.Students).FirstOrDefault(g => g.Id == GroupId);
+                    if (new_group == null)
+                        return NotFound();
+                    db_student.Group.Students.Remove(db_student);
+                    db_student.Group = new_group;
+                    //new_group.Students.Add(db_student);
+                }
+
+                db_student.Name = Student.Name;
+                db_student.Surname = Student.Surname;
+                db_student.Patronymic = Student.Patronymic;
+            }
+            
             _DB.SaveChanges();
-            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+            return RedirectToAction("GroupStudents", new { Id = GroupId });
         }
 
         public IActionResult RemoveStudent(int Id)

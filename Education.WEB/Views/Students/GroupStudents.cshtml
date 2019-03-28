@@ -4,7 +4,7 @@
 }
 
 <h1>Группа @Model.Name</h1>
-<a class="btn btn-primary">Добавить студента</a>
+<a asp-controller="Students" asp-action="EditStudent" asp-route-GroupId="@Model.Id" class="btn btn-outline-primary">Добавить студента</a>
 <table class="table">
     <thead>
     <tr>
@@ -19,7 +19,7 @@
     @{
         int n = 1;
     }
-    @foreach (var student in Model.Students)
+    @foreach (var student in Model.Students.OrderBy(s=>s.Surname).ThenBy(s=>s.Name).ThenBy(s=>s.Patronymic))
     {
         <tr>
             <td>@(n++)</td>
@@ -31,3 +31,6 @@
     }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Назад к списку групп</a>
+</div>
