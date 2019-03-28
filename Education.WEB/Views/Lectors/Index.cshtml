@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Education.Entityes.EF.Lector>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Преподаватели</h1>
+
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ int n = 1;}
+        @foreach (var lector in Model.OrderBy(l=>l.Surname).ThenBy(l=>l.Name).ThenBy(l=>l.Patronymic))
+        {
+            <tr>
+                <td>@(n++)</td>
+                <td>@lector.Surname</td>
+                <td>@lector.Name</td>
+                <td>@lector.Patronymic</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
