@@ -21,10 +21,18 @@ namespace Education.WEB.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult GetStudentsGroups()
+        {
             var groups = _DB.StudentGroups.ToArray();
 
             return View(groups);
         }
+
+        public IActionResult GetLaboratoryWorks() => View();
+        public IActionResult GetEducationLiterature() => View();
 
         public IActionResult GroupStudents(int Id)
         {

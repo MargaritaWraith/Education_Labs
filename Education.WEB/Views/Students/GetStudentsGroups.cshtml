@@ -1,0 +1,48 @@
+﻿
+@model IEnumerable<Education.Entityes.EF.StudentGroup>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Группы</h1>
+
+<a asp-controller="Students" asp-action="EditGroup" class="btn btn-outline-primary">Создать новую группу</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Номер группы</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int n = 1;}
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td>@(n++)</td>
+                <td><a asp-controller="Students" asp-action="GroupStudents" asp-route-Id="@group.Id">@group.Name</a></td>
+                <td>
+                    <a asp-controller="Students" asp-action="EditGroup" asp-route-Id="@group.Id">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Students" asp-action="RemoveGroup" asp-route-Id="@group.Id" class="text-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<div>
+    <a asp-controller="Home" asp-action="Index">Назад на главную</a>
+</div>
+
+@section Aside {
+    @await Html.PartialAsync("Partial/_Menu") @* Ассинхронная операция вывода частичного представления *@
+}

@@ -26,7 +26,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="img-logo" src="Images/Logo-Kaf406.png" />
+                    <img class="img-logo" src="~/Images/Logo-Kaf406.png" />
                 </a>
                 <button class="navbar-toggler"
                         type="button"
@@ -46,7 +46,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" asp-controller="Students" asp-action="Index">Списки групп</a>
+                                    <a class="dropdown-item" asp-controller="Students" asp-action="Index">Общая информация</a>
+                                    <a class="dropdown-item" asp-controller="Students" asp-action="GetStudentsGroups">Списки групп</a>
                                     <a class="dropdown-item" asp-controller="Courses" asp-action="Index">Курсы</a>
                                     <a class="dropdown-item" href="#">Лабораторные работы</a>
                                 </div>
