@@ -7,25 +7,60 @@
     <p>Добро пожаловать.</p>
 </div>*@
 
-<div class="row">
-    <div class="col-md-2">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">О кафедре</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" asp-controller="Students" asp-action="Index">Группы</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Courses" asp-action="Index">Курсы</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Lectors" asp-action="Index">Преподаватели</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Литература</a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-10"></div>
+
+<div class="text-dark">
+    <img id="voskr" align="left" src="Images/Voskr.png"/>
+    <p>
+        Заведующий кафедрой – Воскресенский Дмитрий Иванович, доктор технических наук, профессор.
+    </p>
+    <p>
+        Кафедра создана осенью 1946 года. Около 30 лет (до 1974 года) кафедрой заведовал ее основатель – доктор технических наук, профессор, заслуженный деятель науки и техники РСФСР, лауреат Государственной премии СССР Михаил Самойлович Нейман , 100-летие со дня рождения которого торжественно отмечал в марте 2005 года факультет «Радиоэлектроника летательных аппаратов». М.С.Нейман был одним из крупнейших радиоспециалистов нашей страны, внесших большой вклад в теорию и практику электромагнитных колебательных систем сверхвысоких частот, антенной техники и радиопередающих устройств.
+    </p>
+    <p>
+        С 1975 года кафедрой заведует доктор технических наук, профессор, заслуженный деятель науки РФ Дмитрий Иванович Воскресенский – известный ученый в области антенных устройств сверхвысоких частот, организатор и руководитель антенной научной школы, признанной в нашей стране.
+    </p>
+    <p>
+        Кафедра обеспечивает подготовку специалистов по специальностям факультета:
+    </p>
+    <ul>
+        <li>• 210201 – «Проектирование и технология радиоэлектронных средств» </li>
+        <li>• 210202 – «Конструирование и технология электронно-вычислительных средств»</li>
+        <li>• 210301.65 – «Радиофизика и электроника» </li>
+        <li>• 210302 – «Радиотехника» </li>
+        <li>• 210304 – «Радиоэлектронные системы» </li>
+        <li>• 210305 – «Средства радиоэлектронной борьбы» </li>
+        <li>• 210402 – «Средства связи с подвижными объектами» </li>
+        <li>• 0090104 – «Комплексная защита объектов информации»</li>
+    </ul>
 </div>
+
+
+@section Aside
+{
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">О кафедре</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Students" asp-action="Index">Группы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Courses" asp-action="Index">Курсы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Lectors" asp-action="Index">Преподаватели</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Литература</a>
+        </li>
+    </ul>
+}
+@*@section Styles
+{
+    <style>
+        #voskr {
+             padding-right: 7px;
+            height: 300px;
+        }
+    </style>
+}*@

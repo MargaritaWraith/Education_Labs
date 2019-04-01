@@ -19,14 +19,14 @@
 
     @RenderSection("Styles", required: false)
 
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="img-logo" src="Images/Logo-Kaf406.png"/>
+                    <img class="img-logo" src="Images/Logo-Kaf406.png" />
                 </a>
                 <button class="navbar-toggler"
                         type="button"
@@ -40,19 +40,26 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="#">О кафедре</a>
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Студентам
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Students" asp-action="Index">Списки групп</a>
+                                    <a class="dropdown-item" asp-controller="Courses" asp-action="Index">Курсы</a>
+                                    <a class="dropdown-item" href="#">Лабораторные работы</a>
+                                </div>
+                            </div>
                         </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Приватность</a>
-                            </li>*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Студенты</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Lectors" asp-action="Index">Преподавателям</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Lectors" asp-action="Index">Преподаватели</a>
+                            <a class="nav-link text-dark" href="#">Литература</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Курсы</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Контакты</a>
                         </li>
                     </ul>
                     <div class="mt-2 mt-md-0">
@@ -62,20 +69,47 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         @*<partial name="Partial/_CookieConsentPartial" />*@
-        <main role="main" class="pb-3">
-            <div class="container">
-                @RenderBody()
+        @if (IsSectionDefined("Aside"))
+        {
+            <div class="row">
+                <div class="col-sm-9">
+                    <main role="main" class="pb-3">
+                        <div class="container">
+                            @RenderBody()
+                        </div>
+                    </main>
+                </div>
+                <div class="col-sm-3 order-sm-first">
+                    <aside>
+                        <div class="container">
+                            @RenderSection("Aside")
+                        </div>
+                    </aside>
+                </div>
             </div>
-        </main>
+        }
+        else
+        {
+            <main role="main" class="pb-3">
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </main>
+        }
+
+
+
+
     </div>
 
     @*<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - Education.WEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+            <div class="container">
+                &copy; 2019 - Education.WEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
