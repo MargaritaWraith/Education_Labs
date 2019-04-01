@@ -11,11 +11,7 @@ namespace Education.WEB.Controllers
     public class LectorsController : Controller
     {
         private readonly EducationDB _DB;
-
-        public LectorsController(EducationDB db)
-        {
-            _DB = db;
-        }
+        public LectorsController(EducationDB db) => _DB = db;
 
         public IActionResult Index()
         {
@@ -64,6 +60,15 @@ namespace Education.WEB.Controllers
         public IActionResult RemoveLector(int Id)
         {
             Lector db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Id);
+            if (db_lector == null) return NotFound();
+
+            return View(db_lector);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveLector(Lector Lector)
+        {
+            Lector db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
             if (db_lector == null) return NotFound();
 
             _DB.Lectors.Remove(db_lector);
