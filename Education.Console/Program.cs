@@ -70,6 +70,7 @@ namespace Education.ConsoleTest
                                     break;
 
                                 case "nonquery":
+                                case "nq":
                                     {
                                         var result = command.ExecuteNonQuery();
                                         Console.WriteLine(result);

@@ -8,16 +8,16 @@ namespace Education.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EducationCourses",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EducationCourses", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -26,8 +26,8 @@ namespace Education.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     Patronymic = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -41,7 +41,7 @@ namespace Education.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,16 +54,16 @@ namespace Education.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     CourseId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LaboratoryWorks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LaboratoryWorks_EducationCourses_CourseId",
+                        name: "FK_LaboratoryWorks_Courses_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "EducationCourses",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -79,9 +79,9 @@ namespace Education.DAL.Migrations
                 {
                     table.PrimaryKey("PK_LectorsCourses", x => new { x.LectorId, x.CourseId });
                     table.ForeignKey(
-                        name: "FK_LectorsCourses_EducationCourses_CourseId",
+                        name: "FK_LectorsCourses_Courses_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "EducationCourses",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -98,8 +98,8 @@ namespace Education.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     Patronymic = table.Column<string>(nullable: true),
                     GroupId = table.Column<int>(nullable: true)
                 },
@@ -125,9 +125,9 @@ namespace Education.DAL.Migrations
                 {
                     table.PrimaryKey("PK_StudentsCourses", x => new { x.StudentId, x.CourseId });
                     table.ForeignKey(
-                        name: "FK_StudentsCourses_EducationCourses_CourseId",
+                        name: "FK_StudentsCourses_Courses_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "EducationCourses",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -210,7 +210,7 @@ namespace Education.DAL.Migrations
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "EducationCourses");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "StudentGroup");

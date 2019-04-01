@@ -1,0 +1,38 @@
+﻿@model Education.Entityes.EF.Lector
+
+@{
+    ViewData["Title"] = "Курсы";
+}
+
+<h1>@Model.Surname @Model.Name @Model.Patronymic</h1>
+
+@*<a asp-controller="Lectors" asp-action="EditCourses" class="btn btn-outline-primary">Добавить курс</a>*@
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <td>№</td>
+        <td>Название курса</td>
+    </tr>
+    </thead>
+    <tbody>
+    @{ int n = 1;}
+    @{foreach (var course in Model.Courses.Select(c => c.Course).OrderBy(c=>c.Name))
+      {
+          <tr>
+              <td>@(n++)</td>
+              <td>@course.Name</td>
+          </tr>
+      }
+    }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Lectors" asp-action="Index">Назад к списку преподавателей</a>
+</div>
+
+@section Aside
+    {
+    @await Html.PartialAsync("Partial/_Menu")
+}

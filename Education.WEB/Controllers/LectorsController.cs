@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.Entityes.EF;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Education.WEB.Controllers
 {
@@ -18,6 +19,22 @@ namespace Education.WEB.Controllers
             var lectors = _DB.Lectors.ToArray();
 
             return View(lectors);
+        }
+
+        public IActionResult GetLectorCourses(int LectorId)
+        {
+            if (LectorId <= 0)
+                return BadRequest();
+
+            var lector = _DB.Lectors
+                .Include(c => c.Courses)
+                .Include("Courses.Course")
+                .FirstOrDefault(l => l.Id == LectorId);
+
+            if (lector is null)
+                return NotFound();
+
+            return View(lector);
         }
 
         public IActionResult EditLector(int? LectorId)

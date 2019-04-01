@@ -4,7 +4,7 @@ using Education.Entityes.EF.BaseEntityes;
 
 namespace Education.Entityes.EF
 {
-    [Table("EducationCourses")]
+    [Table("Courses")]
     public class Course : NamedEntity
     {
         public ICollection<LabWork> LaboratoryWorks { get; set; }
