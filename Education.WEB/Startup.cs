@@ -28,6 +28,8 @@ namespace Education.WEB
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.ConsentCookie.MaxAge = TimeSpan.FromDays(365);
+                options.ConsentCookie.Expiration = TimeSpan.FromDays(360);
             });
 
             services.AddDbContext<EducationDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -25,8 +25,17 @@
             <td>@(n++)</td>
             <td>@student.Surname</td>
             <td>@student.Name</td>
-            <td><a asp-controller="Students" asp-action="EditStudent" asp-route-StudId="@student.Id" asp-route-GroupId="@student.Group.Id">Редактировать</a></td>
-            <td><a asp-controller="Students" asp-action="RemoveStudent" asp-route-Id="@student.Id" class="text-danger">Удалить</a></td>
+            <td>
+                <a asp-controller="Students" asp-action="EditStudent" asp-route-StudId="@student.Id" asp-route-GroupId="@student.Group.Id" 
+                   class="btn btn-outline-primary btn-sm">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Students" asp-action="RemoveStudent" asp-route-Id="@student.Id" class="btn btn-outline-danger btn-sm">
+                    <i class="fa fa-times"></i>
+                </a>
+            </td>
         </tr>
     }
     </tbody>

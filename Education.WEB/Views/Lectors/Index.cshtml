@@ -6,35 +6,55 @@
 <h1>Преподаватели</h1>
 
 <a asp-controller="Lectors" asp-action="EditLector" class="btn btn-outline-primary">Добавить преподавателя</a>
-<div class="row">
+<div class="table-responsive">
     <table class="table table-hover">
+        @*<caption>Преподаватели</caption>*@
         <thead>
-            <tr>
-                <th>№</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th></th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>№</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
-            @{ int n = 1;}
-            @foreach (var lector in Model.OrderBy(l => l.Surname).ThenBy(l => l.Name).ThenBy(l => l.Patronymic))
-            {
-                <tr>
-                    <td>@(n++)</td>
-                    <td>@lector.Surname</td>
-                    <td>@lector.Name</td>
-                    <td>@lector.Patronymic</td>
-                    <td><a asp-controller="Lectors" asp-action="EditLector" asp-route-Id="@lector.Id">Редактировать</a></td>
-                    <td><a asp-controller="Lectors" asp-action="RemoveLector" asp-route-Id="@lector.Id" class="text-danger">Удалить</a></td>
-                </tr>
-            }
+        @{ int n = 1;}
+        @foreach (var lector in Model.OrderBy(l => l.Surname).ThenBy(l => l.Name).ThenBy(l => l.Patronymic))
+        {
+            <tr>
+                <td>@(n++)</td>
+                <td>@lector.Surname</td>
+                <td>@lector.Name</td>
+                <td>@lector.Patronymic</td>
+                <td>
+                    <a asp-controller="Lectors" asp-action="EditLector" asp-route-LectorId="@lector.Id">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+
+                    <a asp-controller="Lectors" asp-action="RemoveLector" asp-route-Id="@lector.Id" class="text-danger">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
+
 <hr />
 <div>
     <a asp-controller="Home" asp-action="Index">Назад на главную</a>
 </div>
+
+@section Styles
+{
+    <style>
+        caption {
+            caption-side: top;
+        }
+    </style>
+}
