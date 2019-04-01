@@ -18,9 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    @{
-        int n = 1;
-    }
+    @{int n = 1;}
     @foreach (var group in Model)
     {
         <tr>
@@ -32,3 +30,7 @@
     }
     </tbody>
 </table>
+<hr/>
+<div>
+    <a asp-controller="Home" asp-action="Index">Назад на главную</a>
+</div>

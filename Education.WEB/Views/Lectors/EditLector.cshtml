@@ -1,17 +1,17 @@
 ﻿@using Education.Entityes.EF
-@model Education.Entityes.EF.Student
+@model Education.Entityes.EF.Lector
 
 @{
-    ViewData["Title"] = "EditStudent";
+    ViewData["Title"] = "EditLector";
 }
 
-<h1>Редактирование студента</h1>
+<h1>Редактирование преподавателя</h1>
 
-<h4>@Model.Surname @Model.Name</h4>
+<h4>@Model.Surname @Model.Name @Model.Patronymic</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditStudent" method="post">
+        <form asp-action="EditLector" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Surname" class="control-label"></label>
@@ -29,24 +29,11 @@
                 <span asp-validation-for="Patronymic" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Group" class="control-label"></label>
-                <select name="GroupId" id="GroupId">
-                    @foreach (StudentGroup group in ViewBag.Groups)
-                    {
-                        if (group.Id == Model.Group.Id)
-                        {
-                            <option value="@group.Id" selected="selected">@group.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@group.Id">@group.Name</option>
-                        }
-                    }
-                </select>
-            </div>
-
-            <input asp-for="Id" type="hidden" />
+            @*<div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
 
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
@@ -56,6 +43,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад к списку групп</a>
+    <a asp-action="Index">Назад к списку преподавателей</a>
 </div>
 

@@ -1,7 +1,31 @@
-﻿
+﻿@model IEnumerable<Education.Entityes.EF.Course>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Курсы</h1>
-
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <td>№</td>
+            <td>Название курса</td>
+        </tr>
+        </thead>
+        <tbody>
+        @{ int n = 1;}
+        @{foreach (var course in Model.OrderBy(c=>c.Name))
+          {
+              <tr>
+                  <td>@(n++)</td>
+                  <td>@course.Name</td>
+              </tr>
+          }
+        }
+        </tbody>
+    </table>
+</div>
+<hr/>
+<div>
+    <a asp-controller = "Home" asp-action="Index">Назад на главную</a>
+</div>

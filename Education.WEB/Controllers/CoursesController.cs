@@ -18,8 +18,9 @@ namespace Education.WEB.Controllers
         public IActionResult Index()
         {
             var courses = _DB.Courses.ToArray();
-
             return View(courses);
         }
+
+
     }
 }

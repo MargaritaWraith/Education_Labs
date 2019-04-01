@@ -35,14 +35,14 @@ namespace Education.WEB.Controllers
             return View(group);
         }
 
-        public IActionResult EditGroup(int? Id)
+        public IActionResult EditGroup(int? GroupId)
         {
             StudentGroup group;
-            if (Id == null)
+            if (GroupId == null)
                 @group = new StudentGroup();
             else
             {
-                group = _DB.StudentGroups.FirstOrDefault(g => g.Id == Id);
+                group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
                 if (group == null)
                     return NotFound();
             }
@@ -71,9 +71,9 @@ namespace Education.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveGroup(int Id)
+        public IActionResult RemoveGroup(int GroupId)
         {
-            var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == Id);
+            var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
             if (db_group == null)
                 return NotFound();
             _DB.StudentGroups.Remove(db_group);
