@@ -3,43 +3,58 @@
     ViewData["Title"] = "GroupStudents";
 }
 
-<h1>Группа @Model.Name</h1>
+@*<h1>Группа @Model.Name</h1>*@
 <a asp-controller="Students" asp-action="EditStudent" asp-route-GroupId="@Model.Id" class="btn btn-outline-primary">Добавить студента</a>
 <table class="table">
+    <caption>Группа @Model.Name</caption>
     <thead>
-    <tr>
-        <th>№</th>
-        <th>Фамилия</th>
-        <th>Имя</th>
-        <th></th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>№</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th></th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @{
-        int n = 1;
-    }
-    @foreach (var student in Model.Students.OrderBy(s=>s.Surname).ThenBy(s=>s.Name).ThenBy(s=>s.Patronymic))
-    {
-        <tr>
-            <td>@(n++)</td>
-            <td>@student.Surname</td>
-            <td>@student.Name</td>
-            <td>
-                <a asp-controller="Students" asp-action="EditStudent" asp-route-StudId="@student.Id" asp-route-GroupId="@student.Group.Id" 
-                   class="btn btn-outline-primary btn-sm">
-                    <i class="fa fa-edit"></i>
-                </a>
-            </td>
-            <td>
-                <a asp-controller="Students" asp-action="RemoveStudent" asp-route-Id="@student.Id" class="btn btn-outline-danger btn-sm">
-                    <i class="fa fa-times"></i>
-                </a>
-            </td>
-        </tr>
-    }
+        @{
+            int n = 1;
+        }
+        @foreach (var student in Model.Students.OrderBy(s => s.Surname).ThenBy(s => s.Name).ThenBy(s => s.Patronymic))
+        {
+            <tr>
+                <td>@(n++)</td>
+                <td>@student.Surname</td>
+                <td>@student.Name</td>
+                <td>
+                    <a asp-controller="Students" asp-action="EditStudent" asp-route-StudId="@student.Id" asp-route-GroupId="@student.Group.Id"
+                       class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Students" asp-action="RemoveStudent" asp-route-Id="@student.Id" class="btn btn-outline-danger btn-sm">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Назад к списку групп</a>
+    <a asp-controller="Students" asp-action="GetStudentsGroups">Назад к списку групп</a>
 </div>
+
+@section Aside
+    {   
+    @await Html.PartialAsync("Partial/_Menu")
+}
+
+@section Styles
+    {
+    <style>
+        caption {
+            caption-side: top;
+        }
+    </style>
+}

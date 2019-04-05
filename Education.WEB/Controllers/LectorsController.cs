@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.Entityes.EF;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Education.WEB.Controllers
 {
+        [Authorize(Roles = "admin")]
     public class LectorsController : Controller
     {
         private readonly EducationDB _DB;
@@ -21,6 +23,7 @@ namespace Education.WEB.Controllers
             return View(lectors);
         }
 
+        //[AllowAnonymous]
         public IActionResult GetLectorCourses(int LectorId)
         {
             if (LectorId <= 0)

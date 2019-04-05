@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Education.Entityes.EF;
+using Education.Entityes.EF.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Education.DAL.Context
 {
-    public class EducationDB : DbContext
+    public class EducationDB : IdentityDbContext<User, Role, string>
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Lector> Lectors { get; set; }

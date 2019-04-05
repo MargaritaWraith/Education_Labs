@@ -1,0 +1,35 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+@*<form method="post" asp-action="Login" asp-route-ReturnURL="@Model.ReturnURL">
+    @Html.EditorForModel()
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+
+</form>*@
+
+
+<form class="form-signin" method="post" asp-action="Login" asp-controller="Account" asp-route-ReturnURL="@Model.ReturnURL">
+    <img class="mb-4 img-logo" src="~/Images/Logo-Kaf406.png">
+
+    <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+    
+    <label asp-for="UserName" class="sr-only"></label>
+    <input asp-for="UserName" class="form-control" placeholder="Login" required autofocus>
+
+    <label asp-for="Password" class="sr-only"></label>
+    <input asp-for="Password" class="form-control" placeholder="Password" required>
+    
+    <div class="checkbox mb-3">
+        <label>
+            <input asp-for="RememberMe" value="remember-me">Запомнить
+        </label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+
+</form>

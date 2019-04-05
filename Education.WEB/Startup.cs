@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Education.DAL.Context;
+using Education.DAL.Initial;
+using Education.Entityes.EF.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,12 +37,37 @@ namespace Education.WEB
 
             services.AddDbContext<EducationDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<User, Role>(opt =>
+                {
+                    opt.Lockout.MaxFailedAccessAttempts = 5;
+                    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequiredLength = 4;
+                    opt.Password.RequireLowercase = false;
+                    opt.Password.RequireUppercase = false;
+                })
+                .AddEntityFrameworkStores<EducationDB>()
+                .AddDefaultTokenProviders();
+
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromDays(150);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AcessDenied";
+                options.SlidingExpiration = true;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<EducationDBInit>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EducationDB db)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EducationDBInit DB)
         {
+            DB.Initialize();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,6 +79,8 @@ namespace Education.WEB
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
