@@ -12,5 +12,6 @@ namespace Education.Entityes.EF
         public virtual StudentGroup Group { get; set; }
         public virtual ICollection<StudentsCourses> Courses { get; set; }
         public virtual ICollection<StudentsLabWorks> LabWorks { get; set; }
+        public virtual ICollection<Participation> Partisipations { get; set; }
     }
 }

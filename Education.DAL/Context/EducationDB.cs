@@ -15,6 +15,7 @@ namespace Education.DAL.Context
         public DbSet<Course> Courses { get; set; }
         public DbSet<LabWork> LabWorks { get; set; }
         public DbSet<StudentGroup> StudentGroups { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
 
         public EducationDB(DbContextOptions<EducationDB> options) 
             : base(options)

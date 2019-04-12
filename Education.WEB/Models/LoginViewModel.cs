@@ -8,7 +8,10 @@ namespace Education.WEB.Models
 {
     public class LoginViewModel
     {
+        [Display(Name = "Имя пользователя"), Required]
         public string UserName { get; set; }
+
+        [Display(Name = "Пароль"), Required, DataType(DataType.Password)]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
         public string ReturnURL { get; set; }
