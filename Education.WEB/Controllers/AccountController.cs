@@ -53,6 +53,7 @@ namespace Education.WEB.Controllers
         {
             return View();
         }
-       
+
+        public IActionResult Profile() => View();
     }
 }

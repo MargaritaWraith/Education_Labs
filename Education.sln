@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.Entityes", "Education.Entityes\Education.Entityes.csproj", "{03602A21-C0A8-45AE-82CB-A43A1DAC698A}"
 EndProject
@@ -11,7 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.DAL", "Education.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.WEB", "Education.WEB\Education.WEB.csproj", "{B7A99551-7141-4343-8EC6-94CF4AF00D45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Education.Service", "Education.Service\Education.Service.csproj", "{382DE3B8-DD7F-44DB-B60B-02F832B8F112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Education.Service", "Education.Service\Education.Service.csproj", "{382DE3B8-DD7F-44DB-B60B-02F832B8F112}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F1446264-BD70-47DA-92C3-3DC5AFD7E993}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CBD635A2-1205-44A3-9CA2-E1280197344B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserInterface", "UserInterface", "{F29A8326-DA10-434D-915B-56610822E2BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5CE38573-F998-4B4A-97E3-D2A27C58975A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Education.Services", "Education.Services\Education.Services.csproj", "{127063D1-EC2A-4CD5-ADDC-88F7FC821E38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +49,21 @@ Global
 		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{382DE3B8-DD7F-44DB-B60B-02F832B8F112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{127063D1-EC2A-4CD5-ADDC-88F7FC821E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{127063D1-EC2A-4CD5-ADDC-88F7FC821E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{127063D1-EC2A-4CD5-ADDC-88F7FC821E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{127063D1-EC2A-4CD5-ADDC-88F7FC821E38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{03602A21-C0A8-45AE-82CB-A43A1DAC698A} = {F1446264-BD70-47DA-92C3-3DC5AFD7E993}
+		{5E2AAF3D-D4A3-4C7E-AB16-2EE07B2E5894} = {5CE38573-F998-4B4A-97E3-D2A27C58975A}
+		{E429F94D-BE58-401F-AA2E-E0C010F96AC6} = {CBD635A2-1205-44A3-9CA2-E1280197344B}
+		{B7A99551-7141-4343-8EC6-94CF4AF00D45} = {F29A8326-DA10-434D-915B-56610822E2BE}
+		{382DE3B8-DD7F-44DB-B60B-02F832B8F112} = {F1446264-BD70-47DA-92C3-3DC5AFD7E993}
+		{127063D1-EC2A-4CD5-ADDC-88F7FC821E38} = {CBD635A2-1205-44A3-9CA2-E1280197344B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {605F9848-EF64-4F60-B7C8-49CD704FB013}

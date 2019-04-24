@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Education.DAL\Education.DAL.csproj" />
+    <ProjectReference Include="..\Education.Entityes\Education.Entityes.csproj" />
+    <ProjectReference Include="..\Education.Service\Education.Service.csproj" />
+  </ItemGroup>
+
+</Project>

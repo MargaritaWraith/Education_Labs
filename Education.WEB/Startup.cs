@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.DAL.Initial;
 using Education.Entityes.EF.Identity;
+using Education.Services.Implementation;
+using Education.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +29,9 @@ namespace Education.WEB
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ILessonsService, SQLLessonsService>();  // указание системе выдавать объект класса ILessonService по запросу
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
