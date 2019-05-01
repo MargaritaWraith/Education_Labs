@@ -137,7 +137,7 @@ class Popover extends Tooltip {
   _cleanTipClass() {
     const $tip = $(this.getTipElement())
     const tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX)
-    if (tabClass !is null && tabClass.length > 0) {
+    if (tabClass !== null && tabClass.length > 0) {
       $tip.removeClass(tabClass.join(''))
     }
   }

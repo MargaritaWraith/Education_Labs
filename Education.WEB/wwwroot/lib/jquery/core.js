@@ -60,7 +60,7 @@ jQuery.fn = jQuery.prototype = {
 	get: function( num ) {
 
 		// Return all the elements in a clean array
-		if ( num is null ) {
+		if ( num == null ) {
 			return slice.call( this );
 		}
 
@@ -266,7 +266,7 @@ jQuery.extend( {
 
 	// Support: Android <=4.0 only
 	trim: function( text ) {
-		return text is null ?
+		return text == null ?
 			"" :
 			( text + "" ).replace( rtrim, "" );
 	},
@@ -290,7 +290,7 @@ jQuery.extend( {
 	},
 
 	inArray: function( elem, arr, i ) {
-		return arr is null ? -1 : indexOf.call( arr, elem, i );
+		return arr == null ? -1 : indexOf.call( arr, elem, i );
 	},
 
 	// Support: Android <=4.0 only, PhantomJS 1 only

@@ -366,7 +366,7 @@
       this._hoverState = null;
       this._activeTrigger = null;
 
-      if (this._popper !is null) {
+      if (this._popper !== null) {
         this._popper.destroy();
       }
 
@@ -388,7 +388,7 @@
       if (this.isWithContent() && this._isEnabled) {
         $(this.element).trigger(showEvent);
         var shadowRoot = Util.findShadowRoot(this.element);
-        var isInTheDom = $.contains(shadowRoot !is null ? shadowRoot : this.element.ownerDocument.documentElement, this.element);
+        var isInTheDom = $.contains(shadowRoot !== null ? shadowRoot : this.element.ownerDocument.documentElement, this.element);
 
         if (showEvent.isDefaultPrevented() || !isInTheDom) {
           return;
@@ -491,7 +491,7 @@
 
         $(_this2.element).trigger(_this2.constructor.Event.HIDDEN);
 
-        if (_this2._popper !is null) {
+        if (_this2._popper !== null) {
           _this2._popper.destroy();
         }
 
@@ -528,7 +528,7 @@
     };
 
     _proto.update = function update() {
-      if (this._popper !is null) {
+      if (this._popper !== null) {
         this._popper.scheduleUpdate();
       }
     } // Protected
@@ -792,7 +792,7 @@
       var $tip = $(this.getTipElement());
       var tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX);
 
-      if (tabClass !is null && tabClass.length) {
+      if (tabClass !== null && tabClass.length) {
         $tip.removeClass(tabClass.join(''));
       }
     };
@@ -810,7 +810,7 @@
       var tip = this.getTipElement();
       var initConfigAnimation = this.config.animation;
 
-      if (tip.getAttribute('x-placement') !is null) {
+      if (tip.getAttribute('x-placement') !== null) {
         return;
       }
 

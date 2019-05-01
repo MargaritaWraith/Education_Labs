@@ -13,7 +13,10 @@ namespace Education.WEB.Models
 
         [Display(Name = "Пароль"), Required, DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Display(Name = "Запомнить?")]
         public bool RememberMe { get; set; }
+
         public string ReturnURL { get; set; }
     }
 }

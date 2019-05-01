@@ -236,7 +236,7 @@ class Tooltip {
     this._timeout       = null
     this._hoverState    = null
     this._activeTrigger = null
-    if (this._popper !is null) {
+    if (this._popper !== null) {
       this._popper.destroy()
     }
 
@@ -257,7 +257,7 @@ class Tooltip {
 
       const shadowRoot = Util.findShadowRoot(this.element)
       const isInTheDom = $.contains(
-        shadowRoot !is null ? shadowRoot : this.element.ownerDocument.documentElement,
+        shadowRoot !== null ? shadowRoot : this.element.ownerDocument.documentElement,
         this.element
       )
 
@@ -362,7 +362,7 @@ class Tooltip {
       this._cleanTipClass()
       this.element.removeAttribute('aria-describedby')
       $(this.element).trigger(this.constructor.Event.HIDDEN)
-      if (this._popper !is null) {
+      if (this._popper !== null) {
         this._popper.destroy()
       }
 
@@ -403,7 +403,7 @@ class Tooltip {
   }
 
   update() {
-    if (this._popper !is null) {
+    if (this._popper !== null) {
       this._popper.scheduleUpdate()
     }
   }
@@ -716,7 +716,7 @@ class Tooltip {
   _cleanTipClass() {
     const $tip = $(this.getTipElement())
     const tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX)
-    if (tabClass !is null && tabClass.length) {
+    if (tabClass !== null && tabClass.length) {
       $tip.removeClass(tabClass.join(''))
     }
   }
@@ -732,7 +732,7 @@ class Tooltip {
     const tip = this.getTipElement()
     const initConfigAnimation = this.config.animation
 
-    if (tip.getAttribute('x-placement') !is null) {
+    if (tip.getAttribute('x-placement') !== null) {
       return
     }
 

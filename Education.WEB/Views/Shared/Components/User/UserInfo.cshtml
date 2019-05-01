@@ -1,20 +1,25 @@
 ﻿@*<a asp-controller="Account" asp-action="Logout" class="btn btn-outline-primary my-2 my-sm-0">@User.Identity.Name</a>*@
 
-<div class="btn-group">
-    <div class="btn-group dropdown" role="group">
-        <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split text-body" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="sr-only">Toggle Dropleft</span>
-        </button>
-        <div class="dropdown-menu">
-            @*@if (User.IsInRole(Role.Admin))
-            {
-                <a class="dropdown-item" asp-area="Administrate" asp-controller="Home" asp-action="Index">Управление</a>
-            }*@
-            <a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out-alt"></i> Выход</a>
+    <div class="btn-group">
+        <div class="btn-group dropdown" role="group">
+            <button type="button" 
+                    class="btn btn-outline-light dropdown-toggle dropdown-toggle-split text-body"
+                    data-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false">
+                <span class="sr-only">Toggle Dropleft</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item"
+                   asp-controller="Account"
+                   asp-action="Logout">
+                    <i class="fa fa-sign-out-alt"></i> Выход
+                </a>
+            </div>
         </div>
+        <a class="btn btn-outline-light text-body" 
+           asp-controller="Account" 
+           asp-action="Profile">
+            <i class="fa fa-user"></i> @User.Identity.Name
+        </a>
     </div>
-    <a class="btn btn-outline-light text-body" asp-controller="Account" asp-action="Profile">
-        <i class="fa fa-user"></i> @User.Identity.Name
-    </a>
-</div>
