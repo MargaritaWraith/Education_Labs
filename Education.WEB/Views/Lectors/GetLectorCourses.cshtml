@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    @{ int n = 1;}
+    @{ var n = 1;}
     @{foreach (var course in Model.Courses.Select(c => c.Course).OrderBy(c=>c.Name))
       {
           <tr>

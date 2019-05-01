@@ -27,7 +27,7 @@ namespace Education.DAL.Initial
         private void IdentityInitialize()
         {
             var admin_role = _RoleManager.FindByNameAsync("admin").Result;
-            if (admin_role == null)
+            if (admin_role is null)
             {
                 admin_role = new Role
                 {
@@ -37,7 +37,7 @@ namespace Education.DAL.Initial
             }
 
             var admin_user = _UserManager.FindByNameAsync("admin").Result;
-            if (admin_user == null)
+            if (admin_user is null)
             {
                 admin_user = new User
                 {

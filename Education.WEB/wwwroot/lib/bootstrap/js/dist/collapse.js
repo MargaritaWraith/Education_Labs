@@ -127,7 +127,7 @@
           return foundElem === element;
         });
 
-        if (selector !== null && filterElement.length > 0) {
+        if (selector !is null && filterElement.length > 0) {
           this._selector = selector;
 
           this._triggerArray.push(elem);
@@ -257,7 +257,7 @@
           var trigger = this._triggerArray[i];
           var selector = Util.getSelectorFromElement(trigger);
 
-          if (selector !== null) {
+          if (selector !is null) {
             var $elem = $([].slice.call(document.querySelectorAll(selector)));
 
             if (!$elem.hasClass(ClassName.SHOW)) {

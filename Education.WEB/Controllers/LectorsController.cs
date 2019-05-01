@@ -10,18 +10,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Education.WEB.Controllers
 {
-        [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class LectorsController : Controller
     {
         private readonly EducationDB _DB;
+
         public LectorsController(EducationDB db) => _DB = db;
 
-        public IActionResult Index()
-        {
-            var lectors = _DB.Lectors.ToArray();
-
-            return View(lectors);
-        }
+        public IActionResult Index() => View(_DB.Lectors.ToArray());
 
         //[AllowAnonymous]
         public IActionResult GetLectorCourses(int LectorId)
@@ -30,9 +26,10 @@ namespace Education.WEB.Controllers
                 return BadRequest();
 
             var lector = _DB.Lectors
-                .Include(c => c.Courses)
-                .Include("Courses.Course")
-                .FirstOrDefault(l => l.Id == LectorId);
+               .Include(l => l.Courses)
+               .Include(l => l.Courses.Select(lc => lc.Course))
+               //.Include("Courses.Course")
+               .FirstOrDefault(l => l.Id == LectorId);
 
             if (lector is null)
                 return NotFound();
@@ -43,12 +40,12 @@ namespace Education.WEB.Controllers
         public IActionResult EditLector(int? LectorId)
         {
             Lector lector;
-            if (LectorId == null)
+            if (LectorId is null)
                 lector = new Lector();
             else
             {
                 lector = _DB.Lectors.FirstOrDefault(l => l.Id == LectorId);
-                if (lector == null)
+                if (lector is null)
                     return NotFound();
             }
 
@@ -66,7 +63,7 @@ namespace Education.WEB.Controllers
             else
             {
                 var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
-                if (db_lector == null)
+                if (db_lector is null)
                     return NotFound();
                 db_lector.Surname = Lector.Surname;
                 db_lector.Name = Lector.Name;
@@ -79,8 +76,8 @@ namespace Education.WEB.Controllers
 
         public IActionResult RemoveLector(int Id)
         {
-            Lector db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Id);
-            if (db_lector == null) return NotFound();
+            var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Id);
+            if (db_lector is null) return NotFound();
 
             return View(db_lector);
         }
@@ -88,8 +85,8 @@ namespace Education.WEB.Controllers
         [HttpPost]
         public IActionResult RemoveLector(Lector Lector)
         {
-            Lector db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
-            if (db_lector == null) return NotFound();
+            var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
+            if (db_lector is null) return NotFound();
 
             _DB.Lectors.Remove(db_lector);
             _DB.SaveChanges();

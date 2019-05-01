@@ -11,13 +11,12 @@ namespace Education.WEB.Controllers
     public class LessonsController : Controller
     {
         private readonly ILessonsService _LessonsService;
+
         public LessonsController(ILessonsService LessonsService) => _LessonsService = LessonsService;
 
         public IActionResult Index(int LectorID, int CourseID, LessonType Type = LessonType.Lecture)
         {
-            var Lessons = _LessonsService.GetLessons(LectorID, CourseID, Type);
-
-            return View(Lessons);
+            return View(_LessonsService.GetLessons(LectorID, CourseID, Type));
         }
     }
 }

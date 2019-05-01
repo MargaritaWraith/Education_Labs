@@ -15,7 +15,7 @@ namespace Education.DAL.Initial
         {
             if (!db.StudentGroups.Any())
             {
-                for (int i = 1; i <= 6; i++)
+                for (var i = 1; i <= 6; i++)
                     db.StudentGroups.AddRange(
                         new StudentGroup { Name = $"04-{i}07" },
                         new StudentGroup { Name = $"04-{i}06" },
@@ -32,18 +32,19 @@ namespace Education.DAL.Initial
                 var groups = db.StudentGroups.ToArray();
                 var rnd = new Random();
                 using (var reader = File.OpenText("names2.txt"))
-                {
                     while (!reader.EndOfStream)
                     {
                         var line = reader.ReadLine();
+                        if (line is null) continue;
                         var components = line.Split(' ');
-                        var student = new Student();
-                        student.Surname = components[0];
-                        student.Name = components[1];
-                        student.Group = rnd.Next(groups);
-                        db.Students.Add(student);
+                        if (components.Length < 2) continue;
+                        db.Students.Add(new Student
+                        {
+                            Surname = components[0],
+                            Name = components[1],
+                            Group = rnd.Next(groups)
+                        });
                     }
-                }
 
 
                 db.SaveChanges();
@@ -64,23 +65,21 @@ namespace Education.DAL.Initial
                 var students = db.Students.ToArray();
                 var courses = db.Courses.ToArray();
                 var rnd = new Random();
-                for (int i = 0; i < students.Length; i++)
+                for (var i = 0; i < students.Length; i++)
                 {
                     var stud = rnd.Next(students);
-                    if (stud.Courses == null)
+                    if (stud.Courses is null)
                         stud.Courses = new List<StudentsCourses>();
                     var crs = rnd.Next(courses);
                     if (stud.Courses.Any(c => c.Course == crs))
                         continue;
                     stud.Courses.Add(new StudentsCourses { Course = crs, Student = stud });
-
                 }
                 db.SaveChanges();
             }
 
             if (!db.Lectors.Any())
             {
-
                 void AddLector(string name, string surname, string patronymic, params string[] courses)
                 {
                     if (db.Lectors.Any(l => l.Name == name && l.Surname == surname)) return;
@@ -95,12 +94,9 @@ namespace Education.DAL.Initial
                     foreach (var course in courses)
                     {
                         var db_course = db.Courses.FirstOrDefault(c => c.Name == course);
-                        if (db_course == null)
+                        if (db_course is null)
                         {
-                            db_course = new Course
-                            {
-                                Name = course
-                            };
+                            db_course = new Course { Name = course };
                             db.Courses.Add(db_course);
                         }
                         var lector_course = new LectorsCourses
@@ -146,10 +142,10 @@ namespace Education.DAL.Initial
                 var students = db.Students.ToArray();
                 var labs = db.LabWorks.ToArray();
                 var rnd = new Random();
-                for (int i = 0; i < students.Length * 5; i++)
+                for (var i = 0; i < students.Length * 5; i++)
                 {
                     var stud = rnd.Next(students);
-                    if (stud.LabWorks == null) stud.LabWorks = new List<StudentsLabWorks>();
+                    if (stud.LabWorks is null) stud.LabWorks = new List<StudentsLabWorks>();
                     var lbw = rnd.Next(labs);
                     if (stud.Courses != null && stud.Courses.Any(c => c.Course == lbw.Course) && !stud.LabWorks.Any(lw => lw.LabWorks == lbw))
                     {

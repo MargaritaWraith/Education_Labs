@@ -40,7 +40,8 @@ namespace Education.WEB
                 options.ConsentCookie.Expiration = TimeSpan.FromDays(360);
             });
 
-            services.AddDbContext<EducationDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<EducationDB>(opt => 
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, Role>(opt =>
                 {
@@ -70,12 +71,13 @@ namespace Education.WEB
             services.AddTransient<EducationDBInit>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EducationDBInit DB)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, EducationDBInit db)
         {
-            DB.Initialize();
+            db.Initialize();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
             else

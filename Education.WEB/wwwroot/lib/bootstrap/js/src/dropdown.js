@@ -245,7 +245,7 @@ class Dropdown {
     $(this._element).off(EVENT_KEY)
     this._element = null
     this._menu = null
-    if (this._popper !== null) {
+    if (this._popper !is null) {
       this._popper.destroy()
       this._popper = null
     }
@@ -253,7 +253,7 @@ class Dropdown {
 
   update() {
     this._inNavbar = this._detectNavbar()
-    if (this._popper !== null) {
+    if (this._popper !is null) {
       this._popper.scheduleUpdate()
     }
   }

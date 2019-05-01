@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Education.Services\Education.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

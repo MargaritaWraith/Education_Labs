@@ -59,7 +59,7 @@ namespace Education.ConsoleTest
 
                         try
                         {
-                            SqlCommand command = new SqlCommand(cmd_body, connection);
+                            var command = new SqlCommand(cmd_body, connection);
                             switch (cmd_prefix)
                             {
                                 case "scalar":
@@ -94,7 +94,7 @@ namespace Education.ConsoleTest
 
                                             while (reader.Read())
                                             {
-                                                for (int i = 0; i < schema.Count; i++)
+                                                for (var i = 0; i < schema.Count; i++)
                                                 {
                                                     Console.Write(reader[i]);
                                                     Console.Write("| ");
