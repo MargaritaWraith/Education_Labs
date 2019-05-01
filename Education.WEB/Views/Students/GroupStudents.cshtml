@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         @{
-            int n = 1;
+            var n = 1;
         }
         @foreach (var student in Model.Students.OrderBy(s => s.Surname).ThenBy(s => s.Name).ThenBy(s => s.Patronymic))
         {
@@ -45,13 +45,11 @@
     <a asp-controller="Students" asp-action="GetStudentsGroups">Назад к списку групп</a>
 </div>
 
-@section Aside
-    {   
+@section Aside {   
     @await Html.PartialAsync("Partial/_Menu")
 }
 
-@section Styles
-    {
+@section Styles {
     <style>
         caption {
             caption-side: top;

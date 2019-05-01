@@ -14,30 +14,20 @@ namespace Education.WEB.Controllers
     {
         private readonly EducationDB _DB;
 
-        public StudentsController(EducationDB db)
-        {
-            _DB = db;
-        }
+        public StudentsController(EducationDB db) => _DB = db;
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
-        public IActionResult GetStudentsGroups()
-        {
-            var groups = _DB.StudentGroups.ToArray();
-
-            return View(groups);
-        }
+        public IActionResult GetStudentsGroups() => View(_DB.StudentGroups.ToArray());
 
         public IActionResult GetLaboratoryWorks() => View();
+
         public IActionResult GetEducationLiterature() => View();
 
         public IActionResult GroupStudents(int Id)
         {
             var group = _DB.StudentGroups.Include(g => g.Students).FirstOrDefault(g => g.Id == Id);
-            if (group == null)
+            if (group is null)
                 return NotFound();
 
             return View(group);
@@ -46,12 +36,12 @@ namespace Education.WEB.Controllers
         public IActionResult EditGroup(int? GroupId)
         {
             StudentGroup group;
-            if (GroupId == null)
-                @group = new StudentGroup();
+            if (GroupId is null)
+                group = new StudentGroup();
             else
             {
                 group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
-                if (group == null)
+                if (group is null)
                     return NotFound();
             }
 
@@ -62,15 +52,14 @@ namespace Education.WEB.Controllers
         public IActionResult EditGroup(StudentGroup group)
         {
             if (!ModelState.IsValid)
-            {
                 return View(group);
-            }
 
-            if (group.Id == 0) _DB.StudentGroups.Add(group);
+            if (group.Id == 0)
+                _DB.StudentGroups.Add(group);
             else
             {
                 var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == group.Id);
-                if (db_group == null)
+                if (db_group is null)
                     return NotFound();
                 db_group.Name = group.Name;
             }
@@ -82,7 +71,7 @@ namespace Education.WEB.Controllers
         public IActionResult RemoveGroup(int GroupId)
         {
             var db_group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
-            if (db_group == null)
+            if (db_group is null)
                 return NotFound();
             _DB.StudentGroups.Remove(db_group);
             _DB.SaveChanges();
@@ -92,19 +81,19 @@ namespace Education.WEB.Controllers
         public IActionResult EditStudent(int? StudId, int GroupId)
         {
             Student stud;
-            if (StudId == null)
+            if (StudId is null)
             {
                 stud = new Student();
                 var group = _DB.StudentGroups.FirstOrDefault(g => g.Id == GroupId);
 
-                if (group == null)
+                if (group is null)
                     return NotFound();
                 stud.Group = group;
             }
             else
             {
                 stud = _DB.Students.FirstOrDefault(g => g.Id == StudId);
-                if (stud == null)
+                if (stud is null)
                     return NotFound();
             }
 
@@ -122,7 +111,7 @@ namespace Education.WEB.Controllers
             if (Student.Id == 0)
             {
                 var new_group = _DB.StudentGroups.Include(s => s.Students).FirstOrDefault(g => g.Id == GroupId);
-                if (new_group == null)
+                if (new_group is null)
                     return NotFound();
 
                 new_group.Students.Add(Student);
@@ -132,13 +121,13 @@ namespace Education.WEB.Controllers
             else
             {
                 var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Student.Id);
-                if (db_student == null)
+                if (db_student is null)
                     return NotFound();
 
                 if (db_student.Group.Id != GroupId)
                 {
                     var new_group = _DB.StudentGroups.Include(s => s.Students).FirstOrDefault(g => g.Id == GroupId);
-                    if (new_group == null)
+                    if (new_group is null)
                         return NotFound();
                     db_student.Group.Students.Remove(db_student);
                     db_student.Group = new_group;
@@ -156,12 +145,12 @@ namespace Education.WEB.Controllers
 
         public IActionResult RemoveStudent(int Id)
         {
-            Student db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Id);
-            if (db_student == null)
+            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Id);
+            if (db_student is null)
                 return NotFound();
             _DB.Students.Remove(db_student);
             _DB.SaveChanges();
-            return RedirectToAction("GroupStudents", new { Id = db_student.Group.Id });
+            return RedirectToAction("GroupStudents", new { db_student.Group.Id });
 
         }
     }

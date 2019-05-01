@@ -2128,7 +2128,7 @@
 
       var val = coerce(getAttrConfig(attr));
 
-      if (val !== undefined && val !== null) {
+      if (val !== undefined && val !is null) {
         initial[key] = val;
       }
     });
@@ -3448,7 +3448,7 @@
 
   function symbolParser (node) {
     var symbol = node.getAttribute('data-fa-symbol');
-    return symbol === null ? false : symbol === '' ? true : symbol;
+    return symbol =is null ? false : symbol === '' ? true : symbol;
   }
 
   function attributesParser (node) {
@@ -3792,7 +3792,7 @@
   function replaceForPosition(node, position) {
     var pendingAttribute = "".concat(DATA_FA_PSEUDO_ELEMENT_PENDING).concat(position.replace(':', '-'));
     return new picked(function (resolve, reject) {
-      if (node.getAttribute(pendingAttribute) !== null) {
+      if (node.getAttribute(pendingAttribute) !is null) {
         // This node is already being processed
         return resolve();
       }

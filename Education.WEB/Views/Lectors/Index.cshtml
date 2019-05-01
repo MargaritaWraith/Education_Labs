@@ -19,7 +19,7 @@
         </tr>
         </thead>
         <tbody>
-        @{ int n = 1;}
+        @{ var n = 1;}
         @foreach (var lector in Model.OrderBy(l => l.Surname).ThenBy(l => l.Name).ThenBy(l => l.Patronymic))
         {
             <tr>

@@ -1114,7 +1114,7 @@
             return foundElem === element;
           });
 
-          if (selector !== null && filterElement.length > 0) {
+          if (selector !is null && filterElement.length > 0) {
             this._selector = selector;
 
             this._triggerArray.push(elem);
@@ -1240,7 +1240,7 @@
             var trigger = this._triggerArray[i];
             var selector = Util.getSelectorFromElement(trigger);
 
-            if (selector !== null) {
+            if (selector !is null) {
               var $elem = $$$1([].slice.call(document.querySelectorAll(selector)));
 
               if (!$elem.hasClass(ClassName.SHOW)) {
@@ -1635,7 +1635,7 @@
    * @returns {Element} root node
    */
   function getRoot(node) {
-    if (node.parentNode !== null) {
+    if (node.parentNode !is null) {
       return getRoot(node.parentNode);
     }
 
@@ -4114,7 +4114,7 @@
         this._element = null;
         this._menu = null;
 
-        if (this._popper !== null) {
+        if (this._popper !is null) {
           this._popper.destroy();
 
           this._popper = null;
@@ -4124,7 +4124,7 @@
       _proto.update = function update() {
         this._inNavbar = this._detectNavbar();
 
-        if (this._popper !== null) {
+        if (this._popper !is null) {
           this._popper.scheduleUpdate();
         }
       }; // Private
@@ -5169,7 +5169,7 @@
         this._hoverState = null;
         this._activeTrigger = null;
 
-        if (this._popper !== null) {
+        if (this._popper !is null) {
           this._popper.destroy();
         }
 
@@ -5293,7 +5293,7 @@
 
           $$$1(_this2.element).trigger(_this2.constructor.Event.HIDDEN);
 
-          if (_this2._popper !== null) {
+          if (_this2._popper !is null) {
             _this2._popper.destroy();
           }
 
@@ -5330,7 +5330,7 @@
       };
 
       _proto.update = function update() {
-        if (this._popper !== null) {
+        if (this._popper !is null) {
           this._popper.scheduleUpdate();
         }
       }; // Protected
@@ -5545,7 +5545,7 @@
         var $tip = $$$1(this.getTipElement());
         var tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX);
 
-        if (tabClass !== null && tabClass.length) {
+        if (tabClass !is null && tabClass.length) {
           $tip.removeClass(tabClass.join(''));
         }
       };
@@ -5563,7 +5563,7 @@
         var tip = this.getTipElement();
         var initConfigAnimation = this.config.animation;
 
-        if (tip.getAttribute('x-placement') !== null) {
+        if (tip.getAttribute('x-placement') !is null) {
           return;
         }
 
@@ -5765,7 +5765,7 @@
         var $tip = $$$1(this.getTipElement());
         var tabClass = $tip.attr('class').match(BSCLS_PREFIX_REGEX);
 
-        if (tabClass !== null && tabClass.length > 0) {
+        if (tabClass !is null && tabClass.length > 0) {
           $tip.removeClass(tabClass.join(''));
         }
       }; // Static
