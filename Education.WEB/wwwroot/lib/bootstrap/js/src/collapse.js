@@ -79,7 +79,7 @@ class Collapse {
       const filterElement = [].slice.call(document.querySelectorAll(selector))
         .filter((foundElem) => foundElem === element)
 
-      if (selector !is null && filterElement.length > 0) {
+      if (selector !== null && filterElement.length > 0) {
         this._selector = selector
         this._triggerArray.push(elem)
       }
@@ -229,7 +229,7 @@ class Collapse {
         const trigger = this._triggerArray[i]
         const selector = Util.getSelectorFromElement(trigger)
 
-        if (selector !is null) {
+        if (selector !== null) {
           const $elem = $([].slice.call(document.querySelectorAll(selector)))
           if (!$elem.hasClass(ClassName.SHOW)) {
             $(trigger).addClass(ClassName.COLLAPSED)

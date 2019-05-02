@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Education.Entityes.EF.Identity;
 using Education.WEB.Models;
+using Education.WEB.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -12,9 +13,27 @@ namespace Education.WEB.Controllers
 {
     public class AccountController : Controller
     {
+        /* ----------------------------------------------------------------------------------------------- */
+
+        #region Поля
+
         private readonly SignInManager<User> _SignInManager;
 
+        #endregion
+
+        /* ----------------------------------------------------------------------------------------------- */
+
+        #region Конструктор
+
         public AccountController(SignInManager<User> SignInManager) => _SignInManager = SignInManager;
+
+        #endregion
+
+        /* ----------------------------------------------------------------------------------------------- */
+
+        #region Действия
+
+        #region Login
 
         public IActionResult Login(string ReturnURL) => View(new LoginViewModel { ReturnURL = ReturnURL });
 
@@ -25,7 +44,7 @@ namespace Education.WEB.Controllers
                 return View(login);
 
             var result = await _SignInManager.PasswordSignInAsync(
-                login.UserName, login.Password, 
+                login.UserName, login.Password,
                 login.RememberMe, false);
 
             if (result.Succeeded)
@@ -40,14 +59,67 @@ namespace Education.WEB.Controllers
             return View(login);
         }
 
+        #endregion
+
+        #region Logout
+
         public async Task<IActionResult> Logout()
         {
             await _SignInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        } 
+
+        #endregion
+
+        #region AcessDenied
+
+        public IActionResult AcessDenied() => View(); 
+
+        #endregion
+
+        #region Profile
+
+        public IActionResult Profile() => View(); 
+
+        #endregion
+
+        #region Register
+
+        public IActionResult Register() => View(new RegisterViewModel());
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model, [FromServices] UserManager<User> UserManager)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = new User
+            {
+                UserName = model.UserName,
+                Surname = model.Surname,
+                Name = model.Name,
+                Patronimic = model.Patronymic,
+                Email = model.Email
+            };
+            var CreationResult = await UserManager.CreateAsync(user, model.Password);
+
+            if (CreationResult.Succeeded)
+            {
+                //await UserManager.AddToRoleAsync(user, Role.User);  
+                await _SignInManager.SignInAsync(user, false);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in CreationResult.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View(model);
         }
 
-        public IActionResult AcessDenied() => View();
+        #endregion
 
-        public IActionResult Profile() => View();
+        #endregion
+
+        /* ----------------------------------------------------------------------------------------------- */
     }
 }

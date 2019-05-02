@@ -286,7 +286,7 @@
       this._element = null;
       this._menu = null;
 
-      if (this._popper !is null) {
+      if (this._popper !== null) {
         this._popper.destroy();
 
         this._popper = null;
@@ -296,7 +296,7 @@
     _proto.update = function update() {
       this._inNavbar = this._detectNavbar();
 
-      if (this._popper !is null) {
+      if (this._popper !== null) {
         this._popper.scheduleUpdate();
       }
     } // Private

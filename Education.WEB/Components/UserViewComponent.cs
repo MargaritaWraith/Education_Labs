@@ -8,6 +8,6 @@ namespace Education.WEB.Components
 {
     public class UserViewComponent: ViewComponent
     {
-        public IViewComponentResult Invoke() => User.Identity.IsAuthenticated ? View() : View("UserInfo");
+        public IViewComponentResult Invoke() => User.Identity.IsAuthenticated ? View("UserInfo") : View();
     }
 }

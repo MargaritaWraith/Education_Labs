@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using Education.Entityes.EF;
 using Education.Entityes.EF.Identity;
@@ -17,11 +18,8 @@ namespace Education.DAL.Context
         public DbSet<StudentGroup> StudentGroups { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
 
-        public EducationDB(DbContextOptions<EducationDB> options) 
-            : base(options)
-        {
+        public EducationDB(DbContextOptions<EducationDB> options) : base(options) =>
             ChangeTracker.LazyLoadingEnabled = true;
-        }
 
         protected override void OnModelCreating(ModelBuilder model)
         {
@@ -30,5 +28,18 @@ namespace Education.DAL.Context
             model.Entity<StudentsCourses>().HasKey(e => new { e.StudentId, e.CourseId });
             model.Entity<StudentsLabWorks>().HasKey(e => new { e.StudentId, e.LabWorkId });
         }
+
+        public void AddLabWorkExecution(Student student, LabWork work, int order)
+        {
+            var student_id = student.Id;
+            var work_id = work.Id;
+
+            Database.ExecuteSqlCommand(@"[dbo].[AddLabWork] @StudentId, @WorkId, @Order",
+                new SqlParameter("@StudentId", student_id),
+                new SqlParameter("@WorkId", work_id),
+                new SqlParameter("@Order", order));
+        }
+
+        public void KillBadStudents() => Database.ExecuteSqlCommand(@"[dbo].[KillBadStudents]");
     }
 }
