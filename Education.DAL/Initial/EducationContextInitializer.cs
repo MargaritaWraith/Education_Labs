@@ -6,6 +6,7 @@ using System.Text;
 using Education.DAL.Context;
 using Education.Entityes.EF;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Education.DAL.Initial
 {
@@ -45,7 +46,6 @@ namespace Education.DAL.Initial
                             Group = rnd.Next(groups)
                         });
                     }
-
 
                 db.SaveChanges();
             }
@@ -160,7 +160,30 @@ namespace Education.DAL.Initial
                 }
                 db.SaveChanges();
             }
-        }
 
+            const string test_student_group_name = "TestGroup";
+            var test_group = db.StudentGroups.Include(g => g.Students).FirstOrDefault(g => g.Name == test_student_group_name);
+            if (test_group is null)
+            {
+                test_group = new StudentGroup { Name = test_student_group_name };
+                db.StudentGroups.Add(test_group);
+                db.SaveChanges();
+            }
+
+            if (test_group.Students.Count == 0)
+            {
+                for (var i = 1; i <= 20; i++)
+                {
+                    var student = new Student
+                    {
+                        Surname = $"Surname {i:00}",
+                        Name = $"Student {i:00}",
+                        Group = test_group
+                    };
+                    db.Students.Add(student);
+                }
+                db.SaveChanges();
+            }
+        }
     }
 }

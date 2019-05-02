@@ -35,12 +35,40 @@ BEGIN
 	INSERT INTO [dbo].[StudentsLabWorks] VALUES (@StudentId, @WorkId, @Order);
 END
 ");
+
+            migrationBuilder.Sql(@"
+CREATE PROCEDURE [dbo].[KillBadStudents]
+AS
+BEGIN
+	DECLARE @StudentId int
+
+	DECLARE StudentsCursor CURSOR FOR
+		SELECT Id
+		FROM [dbo].[Students]
+
+	OPEN StudentsCursor
+
+	FETCH NEXT FROM StudentsCursor INTO @StudentId
+
+	WHILE @@FETCH_STATUS=0
+		BEGIN
+		  IF NOT EXISTS (SELECT * FROM [dbo].[StudentsLabWorks] WHERE StudentId = @StudentId)
+			DELETE FROM [dbo].[Students] WHERE Id = @StudentId
+
+			FETCH NEXT FROM StudentsCursor INTO @StudentId
+		END
+
+	CLOSE StudentsCursor
+	DEALLOCATE StudentsCursor
+END
+");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"DROP TRIGGER [dbo].[RatingTrigger];");
             migrationBuilder.Sql(@"DROP PROCEDURE [dbo].[AddLabWork];");
+            migrationBuilder.Sql(@"DROP PROCEDURE [dbo].[KillBadStudents];");
         }
     }
 }
