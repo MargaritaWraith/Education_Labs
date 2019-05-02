@@ -18,11 +18,8 @@ namespace Education.DAL.Context
         public DbSet<StudentGroup> StudentGroups { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
 
-        public EducationDB(DbContextOptions<EducationDB> options) 
-            : base(options)
-        {
+        public EducationDB(DbContextOptions<EducationDB> options) : base(options) =>
             ChangeTracker.LazyLoadingEnabled = true;
-        }
 
         protected override void OnModelCreating(ModelBuilder model)
         {
@@ -42,5 +39,7 @@ namespace Education.DAL.Context
                 new SqlParameter("@WorkId", work_id),
                 new SqlParameter("@Order", order));
         }
+
+        public void KillBadStudents() => Database.ExecuteSqlCommand(@"[dbo].[KillBadStudents]");
     }
 }
