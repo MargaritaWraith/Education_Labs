@@ -22,11 +22,25 @@ BEGIN
 	RETURN
 END
 ");
+
+            migrationBuilder.Sql(@"
+CREATE PROCEDURE AddLabWork 
+	@StudentId int, 
+	@WorkId int,
+	@Order int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO [dbo].[StudentsLabWorks] VALUES (@StudentId, @WorkId, @Order);
+END
+");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"DROP TRIGGER [dbo].[RatingTrigger];");
+            migrationBuilder.Sql(@"DROP PROCEDURE [dbo].[AddLabWork];");
         }
     }
 }
