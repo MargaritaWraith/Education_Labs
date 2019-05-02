@@ -1,4 +1,5 @@
-﻿using Education.DAL.Context;
+﻿using System.Threading.Tasks;
+using Education.DAL.Context;
 using Education.Entityes.EF.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,47 +7,60 @@ namespace Education.DAL.Initial
 {
     public class EducationDBInit
     {
-        private readonly EducationDB _DB;
+        private readonly EducationDB _db;
         private readonly UserManager<User> _UserManager;
         private readonly RoleManager<Role> _RoleManager;
 
-        public EducationDBInit(EducationDB DB, UserManager<User> UserManager, RoleManager<Role> RoleManager)
+        public EducationDBInit(EducationDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager)
         {
-            _DB = DB;
+            _db = db;
             _UserManager = UserManager;
             _RoleManager = RoleManager;
         }
 
         public void Initialize()
         {
-            _DB.Initialize();
-            IdentityInitialize();
-            _DB.SaveChanges();
+            _db.Initialize();
+            IdentityInitializeAsync().Wait();
+            _db.SaveChanges();
         }
 
-        private void IdentityInitialize()
+        private async Task IdentityInitializeAsync()
         {
-            var admin_role = _RoleManager.FindByNameAsync("admin").Result;
-            if (admin_role is null)
+            async Task<Role> CheckRoleAsync(string RoleName)
             {
-                admin_role = new Role
-                {
-                    Name = "admin"
-                };
-                _RoleManager.CreateAsync(admin_role).Wait();
+                var role = await _RoleManager.FindByNameAsync(RoleName);
+                if (role != null) return role;
+                role = new Role { Name = RoleName };
+                await _RoleManager.CreateAsync(role);
+
+                return role;
             }
 
-            var admin_user = _UserManager.FindByNameAsync("admin").Result;
-            if (admin_user is null)
+            await CheckRoleAsync(Role.Admin);
+            await CheckRoleAsync(Role.User);
+            await CheckRoleAsync(Role.Lector);
+            await CheckRoleAsync(Role.Student);
+
+            async Task<User> CheckUserAsync(string UserName, string Password, params string[] Roles)
             {
-                admin_user = new User
+                var user = await _UserManager.FindByNameAsync(UserName);
+                if (user is null)
                 {
-                    UserName = "admin",
-                    Email = "admin@server.ru"
-                };
-                var result = _UserManager.CreateAsync(admin_user, "1147").Result;
-                _UserManager.AddToRoleAsync(admin_user, "admin").Wait();
+                    user = new User { UserName = UserName };
+                    await _UserManager.CreateAsync(user, Password);
+                }
+
+                foreach (var role in Roles)
+                {
+                    if (await _UserManager.IsInRoleAsync(user, role)) continue;
+                    await _UserManager.AddToRoleAsync(user, Role.Admin);
+                }
+
+                return user;
             }
+
+            await CheckUserAsync(User.Admin, User.AdminDefaultPassword, Role.Admin);
         }
     }
 }

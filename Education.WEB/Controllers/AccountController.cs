@@ -13,17 +13,23 @@ namespace Education.WEB.Controllers
 {
     public class AccountController : Controller
     {
+        /* ----------------------------------------------------------------------------------------------- */
+
         #region Поля
 
         private readonly SignInManager<User> _SignInManager;
 
         #endregion
 
+        /* ----------------------------------------------------------------------------------------------- */
+
         #region Конструктор
 
         public AccountController(SignInManager<User> SignInManager) => _SignInManager = SignInManager;
 
         #endregion
+
+        /* ----------------------------------------------------------------------------------------------- */
 
         #region Действия
 
@@ -55,20 +61,34 @@ namespace Education.WEB.Controllers
 
         #endregion
 
+        #region Logout
+
         public async Task<IActionResult> Logout()
         {
             await _SignInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-        }
+        } 
 
-        public IActionResult AcessDenied() => View();
+        #endregion
 
-        public IActionResult Profile() => View();
+        #region AcessDenied
+
+        public IActionResult AcessDenied() => View(); 
+
+        #endregion
+
+        #region Profile
+
+        public IActionResult Profile() => View(); 
+
+        #endregion
+
+        #region Register
 
         public IActionResult Register() => View(new RegisterViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model, [FromServices] UserManager<User> manager)
+        public async Task<IActionResult> Register(RegisterViewModel model, [FromServices] UserManager<User> UserManager)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -80,22 +100,26 @@ namespace Education.WEB.Controllers
                 Patronimic = model.Patronymic,
                 Email = model.Email
             };
-            var CreationResult = await manager.CreateAsync(user, model.Password);
+            var CreationResult = await UserManager.CreateAsync(user, model.Password);
 
             if (CreationResult.Succeeded)
             {
+                //await UserManager.AddToRoleAsync(user, Role.User);  
                 await _SignInManager.SignInAsync(user, false);
+
                 return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in CreationResult.Errors)
-            {
                 ModelState.AddModelError("", error.Description);
-            }
 
             return View(model);
         }
 
         #endregion
+
+        #endregion
+
+        /* ----------------------------------------------------------------------------------------------- */
     }
 }
