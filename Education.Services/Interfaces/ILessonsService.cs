@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using Education.Entityes.EF;
 
 namespace Education.Services.Interfaces
 {
-    public interface ILessonsService
+    public interface ILessonsService : IDataService<Lesson>
     {
-        IEnumerable<Lesson> GetLessons(int LectorId, int CourseId, LessonType Type);
-        Lesson CreateLesson(DateTime Date, LessonType Type, int LectorId, string Subject = null, string Description = null); 
+        IQueryable<Lesson> Get(int LectorId, int CourseId, LessonType Type);
+
+        Task<Lesson> CreateLessonAsync(DateTime Date, LessonType Type, int LectorId, string Subject = null, string Description = null);
     }
 }
