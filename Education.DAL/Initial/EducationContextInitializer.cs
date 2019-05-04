@@ -165,7 +165,7 @@ namespace Education.DAL.Initial
             var test_group = db.StudentGroups.Include(g => g.Students).FirstOrDefault(g => g.Name == test_student_group_name);
             if (test_group is null)
             {
-                test_group = new StudentGroup { Name = test_student_group_name };
+                test_group = new StudentGroup { Name = test_student_group_name, Students = new List<Student>(20) };
                 db.StudentGroups.Add(test_group);
                 db.SaveChanges();
             }

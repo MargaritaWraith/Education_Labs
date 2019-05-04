@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.Entityes.EF.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Education.DAL.Initial
 {
@@ -20,6 +23,7 @@ namespace Education.DAL.Initial
 
         public void Initialize()
         {
+            _db.Database.Migrate();
             _db.Initialize();
             IdentityInitializeAsync().Wait();
             _db.SaveChanges();
@@ -32,7 +36,9 @@ namespace Education.DAL.Initial
                 var role = await _RoleManager.FindByNameAsync(RoleName);
                 if (role != null) return role;
                 role = new Role { Name = RoleName };
-                await _RoleManager.CreateAsync(role);
+                 var creation_result = await _RoleManager.CreateAsync(role);
+                 if (!creation_result.Succeeded)
+                     throw new InvalidOperationException($"Ошибка создания новоq роли {role.Name} - {string.Join(", ", creation_result.Errors.Select(error => error.Description))}");
 
                 return role;
             }
@@ -48,19 +54,28 @@ namespace Education.DAL.Initial
                 if (user is null)
                 {
                     user = new User { UserName = UserName };
-                    await _UserManager.CreateAsync(user, Password);
+                    var creation_result = await _UserManager.CreateAsync(user, Password);
+                    if(!creation_result.Succeeded)
+                        throw new InvalidOperationException($"Ошибка создания нового пользователя {user.Name} - {string.Join(", ", creation_result.Errors.Select(error => error.Description))}");
                 }
 
                 foreach (var role in Roles)
                 {
                     if (await _UserManager.IsInRoleAsync(user, role)) continue;
-                    await _UserManager.AddToRoleAsync(user, Role.Admin);
+                    var add_role_result = await _UserManager.AddToRoleAsync(user, role);
+                    if(!add_role_result.Succeeded)
+                        throw new InvalidOperationException($"Ошибка добавления роли {role} пользователю {user.Name} - {string.Join(", ", add_role_result.Errors.Select(error => error.Description))}");
                 }
+
+                var roles = await _UserManager.GetRolesAsync(user);
 
                 return user;
             }
 
             await CheckUserAsync(User.Admin, User.AdminDefaultPassword, Role.Admin);
+
+            await CheckUserAsync("TestLector", "TestLectorPass", Role.Lector);
+            await CheckUserAsync("TestStudent", "TestStudentPass", Role.Student);
         }
     }
 }
