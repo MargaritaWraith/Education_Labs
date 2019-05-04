@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.Entityes.EF;
+using Education.WEB.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Education.WEB.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Policy = nameof(LectorsPolicy))]
     public class LectorsController : Controller
     {
-        private readonly EducationDB _DB;
+        private readonly EducationDB _db;
 
-        public LectorsController(EducationDB db) => _DB = db;
+        public LectorsController(EducationDB db) => _db = db;
 
-        public IActionResult Index() => View(_DB.Lectors.ToArray());
+        public async Task<IActionResult> Index() => View(await _db.Lectors.ToArrayAsync());
 
         //[AllowAnonymous]
-        public IActionResult GetLectorCourses(int LectorId)
+        public async Task<IActionResult> GetLectorCourses(int LectorId)
         {
             if (LectorId <= 0)
                 return BadRequest();
 
-            var lector = _DB.Lectors
+            var lector = await _db.Lectors
                .Include(l => l.Courses)
-               .Include(l => l.Courses.Select(lc => lc.Course))
-               //.Include("Courses.Course")
-               .FirstOrDefault(l => l.Id == LectorId);
+               .ThenInclude(c => c.Course)
+               .FirstOrDefaultAsync(l => l.Id == LectorId);
 
             if (lector is null)
                 return NotFound();
@@ -37,14 +34,14 @@ namespace Education.WEB.Controllers
             return View(lector);
         }
 
-        public IActionResult EditLector(int? LectorId)
+        public async Task<IActionResult> EditLector(int? LectorId)
         {
             Lector lector;
             if (LectorId is null)
                 lector = new Lector();
             else
             {
-                lector = _DB.Lectors.FirstOrDefault(l => l.Id == LectorId);
+                lector = await _db.Lectors.FirstOrDefaultAsync(l => l.Id == LectorId);
                 if (lector is null)
                     return NotFound();
             }
@@ -53,43 +50,47 @@ namespace Education.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditLector(Lector Lector)
+        public async Task<IActionResult> EditLector(Lector Lector)
         {
             if (!ModelState.IsValid)
                 return View(Lector);
 
             if (Lector.Id == 0)
-                _DB.Lectors.Add(Lector);
+                await _db.Lectors.AddAsync(Lector);
             else
             {
-                var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
+                var db_lector = await _db.Lectors.FirstOrDefaultAsync(l => l.Id == Lector.Id);
                 if (db_lector is null)
                     return NotFound();
+
                 db_lector.Surname = Lector.Surname;
                 db_lector.Name = Lector.Name;
                 db_lector.Patronymic = Lector.Patronymic;
             }
 
-            _DB.SaveChanges();
+            await _db.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveLector(int Id)
+        public async Task<IActionResult> RemoveLector(int Id)
         {
-            var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Id);
-            if (db_lector is null) return NotFound();
+            var db_lector = await _db.Lectors.FirstOrDefaultAsync(l => l.Id == Id);
+            if (db_lector is null)
+                return NotFound();
 
             return View(db_lector);
         }
 
         [HttpPost]
-        public IActionResult RemoveLector(Lector Lector)
+        public async Task<IActionResult> RemoveLector(Lector Lector)
         {
-            var db_lector = _DB.Lectors.FirstOrDefault(l => l.Id == Lector.Id);
+            var db_lector = await _db.Lectors.FirstOrDefaultAsync(l => l.Id == Lector.Id);
             if (db_lector is null) return NotFound();
 
-            _DB.Lectors.Remove(db_lector);
-            _DB.SaveChanges();
+            _db.Lectors.Remove(db_lector);
+            await _db.SaveChangesAsync();
+
             return RedirectToAction("Index");
         }
     }

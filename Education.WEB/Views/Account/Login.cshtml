@@ -3,19 +3,17 @@
     ViewData["Title"] = "Login";
 }
 
-
-
 <form class="form-signin" method="post" asp-action="Login" asp-controller="Account" asp-route-ReturnURL="@Model.ReturnURL">
-   
+
     <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+
     <label asp-for="UserName" class="sr-only"></label>
-    <input asp-for="UserName" class="form-control" placeholder="Login" required autofocus>
+    <input asp-for="UserName" class="form-control" placeholder="Имя пользователя" required autofocus>
 
     <label asp-for="Password" class="sr-only"></label>
-    <input asp-for="Password" class="form-control" placeholder="Password" required>
+    <input asp-for="Password" class="form-control" placeholder="Пароль" required>
 
 
     <div class="checkbox mb-3">
@@ -32,35 +30,42 @@
 @section Styles
 {
     <style>
-        
+
         .form-signin {
             width: 100%;
             max-width: 330px;
             padding: 15px;
             margin: auto;
         }
-        .form-signin .checkbox {
-            font-weight: 400;
-        }
-        .form-signin .form-control {
-            position: relative;
-            box-sizing: border-box;
-            height: auto;
-            padding: 10px;
-            font-size: 16px;
-        }
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
-        .form-signin input[type="email"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
+
+            .form-signin .checkbox {
+                font-weight: 400;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                box-sizing: border-box;
+                height: auto;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
     </style>
 }
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

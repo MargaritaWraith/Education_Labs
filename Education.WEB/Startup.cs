@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Education.DAL.Context;
 using Education.DAL.Initial;
 using Education.Entityes.EF.Identity;
 using Education.Services.Implementation;
 using Education.Services.Interfaces;
+using Education.WEB.Infrastructure.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,17 +20,13 @@ namespace Education.WEB
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ILessonsService, SQLLessonsService>();  // указание системе выдавать объект класса ILessonService по запросу
-
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -40,7 +36,7 @@ namespace Education.WEB
                 options.ConsentCookie.Expiration = TimeSpan.FromDays(360);
             });
 
-            services.AddDbContext<EducationDB>(opt => 
+            services.AddDbContext<EducationDB>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, Role>(opt =>
@@ -56,6 +52,10 @@ namespace Education.WEB
                 .AddEntityFrameworkStores<EducationDB>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(LectorsPolicy), new LectorsPolicy());
+            });
 
             services.ConfigureApplicationCookie(options =>
             {

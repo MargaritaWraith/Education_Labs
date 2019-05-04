@@ -140,16 +140,23 @@ namespace Education.WEB.Controllers
             }
             
             _DB.SaveChanges();
+
             return RedirectToAction("GroupStudents", new { Id = GroupId });
         }
 
         public IActionResult RemoveStudent(int Id)
         {
-            var db_student = _DB.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == Id);
+            var db_student = _DB.Students
+               .Include(s => s.Group)
+               .FirstOrDefault(s => s.Id == Id);
+
             if (db_student is null)
                 return NotFound();
+
             _DB.Students.Remove(db_student);
+
             _DB.SaveChanges();
+
             return RedirectToAction("GroupStudents", new { db_student.Group.Id });
 
         }
